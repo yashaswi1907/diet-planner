@@ -1,0 +1,72 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container mt-5">
+    <h2>✨ Generate Custom Diet Plan</h2>
+    <hr>
+    
+    <div class="row">
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-header bg-success text-white">
+                    <h5>🍽️ Create Your Personalized Plan</h5>
+                </div>
+                <div class="card-body">
+                    <form method="POST">
+                        <div class="form-group mb-4">
+                            <label for="macro_preset"><strong>Select Macro Distribution:</strong></label>
+                            <select class="form-control form-control-lg" id="macro_preset" name="macro_preset">
+                                {% for key, label in macro_presets.items() %}
+                                    <option value="{{ key }}" {% if current_preset == key %}selected{% endif %}>
+                                        {{ label }}
+                                    </option>
+                                {% endfor %}
+                            </select>
+                            <small class="text-muted d-block mt-2">Choose a macro split based on your fitness goals</small>
+                        </div>
+                        
+                        <div class="alert alert-info">
+                            <strong>📊 Your Daily Target:</strong> {{ profile.tdee|int }} calories
+                        </div>
+                        
+                        <div class="alert alert-warning">
+                            <strong>💡 Tip:</strong> Your plan will be generated using your preferred cuisines, dietary restrictions, and excluded foods.
+                        </div>
+                        
+                        <div class="form-group">
+                            <a href="{{ url_for('customization.preferences') }}" class="btn btn-info" target="_blank">
+                                ⚙️ Adjust Preferences First
+                            </a>
+                        </div>
+                        
+                        <hr>
+                        
+                        <button type="submit" class="btn btn-success btn-lg btn-block">
+                            🚀 Generate My Custom Plan
+                        </button>
+                        <a href="{{ url_for('main.index') }}" class="btn btn-secondary btn-lg btn-block mt-2">Cancel</a>
+                    </form>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-md-4">
+            <div class="card bg-light">
+                <div class="card-header">
+                    <h5>📋 Plan Information</h5>
+                </div>
+                <div class="card-body">
+                    <p><strong>What will be generated:</strong></p>
+                    <ul>
+                        <li>✅ 4 meals (breakfast, lunch, dinner, snacks)</li>
+                        <li>✅ Matched to your macro goals</li>
+                        <li>✅ Respects dietary restrictions</li>
+                        <li>✅ Matches your cuisine preferences</li>
+                        <li>✅ Excludes foods you dislike</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

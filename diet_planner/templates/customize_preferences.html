@@ -1,0 +1,139 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container mt-5">
+    <h2>🎨 Customize Your Diet Plan</h2>
+    <hr>
+    
+    <div class="row">
+        <div class="col-md-8">
+            <div class="card mb-4">
+                <div class="card-header bg-primary text-white">
+                    <h5>📊 Macro Preferences</h5>
+                </div>
+                <div class="card-body">
+                    <form method="POST">
+                        <div class="form-group mb-3">
+                            <label for="macro_preset"><strong>Select Macro Split:</strong></label>
+                            <select class="form-control" id="macro_preset" name="macro_preset">
+                                {% for key, label in macro_presets.items() %}
+                                    <option value="{{ key }}" {% if preferences.macro_preset == key %}selected{% endif %}>
+                                        {{ label }}
+                                    </option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        
+                        <hr>
+                        
+                        <div class="form-check mb-3">
+                            <input class="form-check-input" type="checkbox" id="use_custom_macros" name="use_custom_macros"
+                                {% if preferences.custom_macros %}checked{% endif %}>
+                            <label class="form-check-label" for="use_custom_macros">
+                                Use Custom Macro Split
+                            </label>
+                        </div>
+                        
+                        <div id="custom_macros_form" style="{% if preferences.custom_macros %}display: block;{% else %}display: none;{% endif %}">
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>Carbs %:</label>
+                                        <input type="number" class="form-control" name="custom_carbs" min="0" max="100" 
+                                            value="{% if preferences.custom_macros %}{{ (preferences.custom_macros.carbs * 100)|int }}{% else %}50{% endif %}">
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>Protein %:</label>
+                                        <input type="number" class="form-control" name="custom_protein" min="0" max="100"
+                                            value="{% if preferences.custom_macros %}{{ (preferences.custom_macros.protein * 100)|int }}{% else %}30{% endif %}">
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>Fats %:</label>
+                                        <input type="number" class="form-control" name="custom_fats" min="0" max="100"
+                                            value="{% if preferences.custom_macros %}{{ (preferences.custom_macros.fats * 100)|int }}{% else %}20{% endif %}">
+                                    </div>
+                                </div>
+                            </div>
+                            <small class="text-muted">Total must equal 100%</small>
+                        </div>
+                        
+                        <hr>
+                        
+                        <div class="form-group mb-3">
+                            <label><strong>🥗 Dietary Restrictions:</strong></label>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" id="vegetarian" name="dietary_restrictions" value="vegetarian"
+                                    {% if "vegetarian" in preferences.dietary_restrictions %}checked{% endif %}>
+                                <label class="form-check-label" for="vegetarian">
+                                    Vegetarian
+                                </label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" id="vegan" name="dietary_restrictions" value="vegan"
+                                    {% if "vegan" in preferences.dietary_restrictions %}checked{% endif %}>
+                                <label class="form-check-label" for="vegan">
+                                    Vegan
+                                </label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" id="gluten_free" name="dietary_restrictions" value="gluten_free"
+                                    {% if "gluten_free" in preferences.dietary_restrictions %}checked{% endif %}>
+                                <label class="form-check-label" for="gluten_free">
+                                    Gluten Free
+                                </label>
+                            </div>
+                        </div>
+                        
+                        <hr>
+                        
+                        <div class="form-group mb-3">
+                            <label><strong>🍽️ Preferred Cuisines:</strong></label>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" id="indian" name="preferred_cuisines" value="Indian"
+                                    {% if "Indian" in preferences.preferred_cuisines %}checked{% endif %}>
+                                <label class="form-check-label" for="indian">Indian</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" id="breakfast" name="preferred_cuisines" value="Breakfast"
+                                    {% if "Breakfast" in preferences.preferred_cuisines %}checked{% endif %}>
+                                <label class="form-check-label" for="breakfast">Breakfast</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" id="protein" name="preferred_cuisines" value="Protein"
+                                    {% if "Protein" in preferences.preferred_cuisines %}checked{% endif %}>
+                                <label class="form-check-label" for="protein">Protein</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" id="fruit" name="preferred_cuisines" value="Fruit"
+                                    {% if "Fruit" in preferences.preferred_cuisines %}checked{% endif %}>
+                                <label class="form-check-label" for="fruit">Fruits</label>
+                            </div>
+                        </div>
+                        
+                        <hr>
+                        
+                        <div class="form-group mb-3">
+                            <label for="exclude_foods"><strong>❌ Foods to Exclude:</strong></label>
+                            <textarea class="form-control" id="exclude_foods" name="exclude_foods" placeholder="Enter food names separated by commas" rows="3">{% if preferences.exclude_foods %}{{ preferences.exclude_foods|join(", ") }}{% endif %}</textarea>
+                            <small class="text-muted">e.g., Paneer Butter Masala, Samosa, Pizza</small>
+                        </div>
+                        
+                        <button type="submit" class="btn btn-success btn-lg">💾 Save Preferences</button>
+                        <a href="{{ url_for('main.index') }}" class="btn btn-secondary btn-lg">Cancel</a>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    document.getElementById('use_custom_macros').addEventListener('change', function() {
+        document.getElementById('custom_macros_form').style.display = this.checked ? 'block' : 'none';
+    });
+</script>
+{% endblock %}

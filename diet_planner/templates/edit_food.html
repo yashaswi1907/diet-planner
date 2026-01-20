@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="main-wrapper">
+    <h1 class="app-title">Edit Food Item</h1>
+    <div class="card add-food-card">
+        <form action="{{ url_for('main.edit_food', food_id=item.id) }}" method="POST">
+            <div class="form-group">
+                <label>Food Name</label>
+                <input type="text" name="food_name" value="{{ item.name }}" required>
+            </div>
+            <div class="form-group">
+                <label>Calories</label>
+                <input type="number" name="calories" value="{{ item.calories }}" required>
+            </div>
+            <div class="inline-form">
+                <button type="submit" class="btn primary-btn">Update</button>
+                <a href="{{ url_for('main.index') }}" class="btn secondary-btn"
+                    style="background:#ccc; text-align:center; text-decoration:none;">Cancel</a>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}

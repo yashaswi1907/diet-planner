@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="main-wrapper" style="align-items: center; justify-content: center; min-height: 80vh;">
+    <h1 class="app-title">Join Stay Fit</h1>
+    <div class="card" style="width: 100%; max-width: 400px;">
+        {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+        {% for category, message in messages %}
+        <div style="color: var(--danger-color); margin-bottom: 10px; text-align: center;">{{ message }}</div>
+        {% endfor %}
+        {% endif %}
+        {% endwith %}
+
+        <form action="{{ url_for('auth.register') }}" method="POST">
+            <div class="form-group">
+                <label>Pick a Username</label>
+                <input type="text" name="username" required>
+            </div>
+            <div class="form-group">
+                <label>Set Password</label>
+                <input type="password" name="password" required>
+            </div>
+            <button type="submit" class="btn primary-btn">Create Account</button>
+        </form>
+        <div style="margin-top: 20px; text-align: center;">
+            <p>Already joined? <a href="{{ url_for('auth.login') }}" style="color: var(--secondary-color);">Login</a>
+            </p>
+        </div>
+    </div>
+</div>
+{% endblock %}

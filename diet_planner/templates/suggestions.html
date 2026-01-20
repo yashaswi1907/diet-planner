@@ -1,0 +1,204 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container mt-5">
+    <h2>💡 Meal Suggestions & Alternatives</h2>
+    <hr>
+    
+    {% if not diet_plan or not diet_plan.meals %}
+        <div class="alert alert-info">
+            <strong>No plan yet!</strong> <a href="{{ url_for('customization.generate') }}">Generate a diet plan</a> first to get suggestions.
+        </div>
+    {% else %}
+        <div class="row">
+            {% if diet_plan.meals.breakfast %}
+            <div class="col-md-6 mb-4">
+                <div class="card">
+                    <div class="card-header bg-warning text-dark">
+                        <h5>🌅 Breakfast Alternatives</h5>
+                    </div>
+                    <div class="card-body">
+                        <p><strong>Current:</strong> {{ diet_plan.meals.breakfast.name }}</p>
+                        <p><small class="text-muted">{{ diet_plan.meals.breakfast.calories }} cal</small></p>
+                        
+                        {% if suggestions and suggestions.breakfast_healthier %}
+                        <div class="mb-3">
+                            <p><strong>✨ Healthier Options:</strong></p>
+                            <ul class="list-unstyled">
+                                {% for meal in suggestions.breakfast_healthier %}
+                                <li class="mb-2">
+                                    <strong>{{ meal.name }}</strong>
+                                    <br><small>{{ meal.calories }} cal | P: {{ meal.p }}g C: {{ meal.c }}g F: {{ meal.f }}g</small>
+                                </li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                        {% endif %}
+                        
+                        {% if suggestions and suggestions.breakfast_alternatives %}
+                        <div>
+                            <p><strong>🔄 Similar Alternatives:</strong></p>
+                            <ul class="list-unstyled">
+                                {% for meal in suggestions.breakfast_alternatives %}
+                                <li class="mb-2">
+                                    <strong>{{ meal.name }}</strong>
+                                    <br><small>{{ meal.calories }} cal | P: {{ meal.p }}g C: {{ meal.c }}g F: {{ meal.f }}g</small>
+                                </li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+            {% endif %}
+            
+            {% if diet_plan.meals.lunch %}
+            <div class="col-md-6 mb-4">
+                <div class="card">
+                    <div class="card-header bg-info text-white">
+                        <h5>🍽️ Lunch Alternatives</h5>
+                    </div>
+                    <div class="card-body">
+                        <p><strong>Current:</strong> {{ diet_plan.meals.lunch.name }}</p>
+                        <p><small class="text-muted">{{ diet_plan.meals.lunch.calories }} cal</small></p>
+                        
+                        {% if suggestions and suggestions.lunch_high_protein %}
+                        <div class="mb-3">
+                            <p><strong>💪 High Protein Options:</strong></p>
+                            <ul class="list-unstyled">
+                                {% for meal in suggestions.lunch_high_protein %}
+                                <li class="mb-2">
+                                    <strong>{{ meal.name }}</strong>
+                                    <br><small>{{ meal.calories }} cal | P: {{ meal.p }}g C: {{ meal.c }}g F: {{ meal.f }}g</small>
+                                </li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                        {% endif %}
+                        
+                        {% if suggestions and suggestions.lunch_alternatives %}
+                        <div>
+                            <p><strong>🔄 Other Options:</strong></p>
+                            <ul class="list-unstyled">
+                                {% for meal in suggestions.lunch_alternatives %}
+                                <li class="mb-2">
+                                    <strong>{{ meal.name }}</strong>
+                                    <br><small>{{ meal.calories }} cal | P: {{ meal.p }}g C: {{ meal.c }}g F: {{ meal.f }}g</small>
+                                </li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+            {% endif %}
+            
+            {% if diet_plan.meals.dinner %}
+            <div class="col-md-6 mb-4">
+                <div class="card">
+                    <div class="card-header bg-secondary text-white">
+                        <h5>🌙 Dinner Alternatives</h5>
+                    </div>
+                    <div class="card-body">
+                        <p><strong>Current:</strong> {{ diet_plan.meals.dinner.name }}</p>
+                        <p><small class="text-muted">{{ diet_plan.meals.dinner.calories }} cal</small></p>
+                        
+                        {% if suggestions and suggestions.dinner_low_carb %}
+                        <div class="mb-3">
+                            <p><strong>🥗 Low Carb Options:</strong></p>
+                            <ul class="list-unstyled">
+                                {% for meal in suggestions.dinner_low_carb %}
+                                <li class="mb-2">
+                                    <strong>{{ meal.name }}</strong>
+                                    <br><small>{{ meal.calories }} cal | P: {{ meal.p }}g C: {{ meal.c }}g F: {{ meal.f }}g</small>
+                                </li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                        {% endif %}
+                        
+                        {% if suggestions and suggestions.dinner_alternatives %}
+                        <div>
+                            <p><strong>🔄 Other Options:</strong></p>
+                            <ul class="list-unstyled">
+                                {% for meal in suggestions.dinner_alternatives %}
+                                <li class="mb-2">
+                                    <strong>{{ meal.name }}</strong>
+                                    <br><small>{{ meal.calories }} cal | P: {{ meal.p }}g C: {{ meal.c }}g F: {{ meal.f }}g</small>
+                                </li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+            {% endif %}
+            
+            {% if diet_plan.meals.snacks %}
+            <div class="col-md-6 mb-4">
+                <div class="card">
+                    <div class="card-header bg-success text-white">
+                        <h5>🥜 Snack Alternatives</h5>
+                    </div>
+                    <div class="card-body">
+                        <p><strong>Current:</strong> {{ diet_plan.meals.snacks.name }}</p>
+                        <p><small class="text-muted">{{ diet_plan.meals.snacks.calories }} cal</small></p>
+                        
+                        {% if suggestions and suggestions.snack_alternatives %}
+                        <div>
+                            <p><strong>🔄 Other Snack Options:</strong></p>
+                            <ul class="list-unstyled">
+                                {% for meal in suggestions.snack_alternatives %}
+                                <li class="mb-2">
+                                    <strong>{{ meal.name }}</strong>
+                                    <br><small>{{ meal.calories }} cal | P: {{ meal.p }}g C: {{ meal.c }}g F: {{ meal.f }}g</small>
+                                </li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+            {% endif %}
+        </div>
+        
+        <div class="row mt-4">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-header bg-dark text-white">
+                        <h5>🔍 Macro Breakdown</h5>
+                    </div>
+                    <div class="card-body">
+                        {% if diet_plan.macros %}
+                        <div class="row">
+                            <div class="col-md-4">
+                                <h6>💪 Protein</h6>
+                                <p class="h4">{{ diet_plan.macros.protein }}g</p>
+                            </div>
+                            <div class="col-md-4">
+                                <h6>🍞 Carbs</h6>
+                                <p class="h4">{{ diet_plan.macros.carbs }}g</p>
+                            </div>
+                            <div class="col-md-4">
+                                <h6>🧈 Fats</h6>
+                                <p class="h4">{{ diet_plan.macros.fats }}g</p>
+                            </div>
+                        </div>
+                        <p class="text-muted mt-3">Macro Split: {{ diet_plan.macro_split | default({}) }}</p>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% endif %}
+    
+    <div class="mt-4">
+        <a href="{{ url_for('customization.generate') }}" class="btn btn-primary">Generate New Plan</a>
+        <a href="{{ url_for('main.index') }}" class="btn btn-secondary">Back to Dashboard</a>
+    </div>
+</div>
+{% endblock %}

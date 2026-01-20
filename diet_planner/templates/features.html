@@ -1,0 +1,110 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="main-wrapper">
+    <h1 class="app-title">🌟 Advanced Features</h1>
+
+    <div class="dashboard">
+        <!-- Navigation / Actions -->
+        <div class="features-grid"
+            style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; margin-bottom: 30px;">
+            <a href="{{ url_for('features.suggest') }}" class="card feature-card"
+                style="text-decoration: none; color: inherit; text-align: center; transition: transform 0.2s;">
+                <div style="font-size: 3rem;">🍎</div>
+                <h3>Suggest Healthy Item</h3>
+                <p>Get a random healthy food suggestion.</p>
+            </a>
+
+            <a href="{{ url_for('features.generate_plan') }}" class="card feature-card"
+                style="text-decoration: none; color: inherit; text-align: center; transition: transform 0.2s;">
+                <div style="font-size: 3rem;">📅</div>
+                <h3>Generate Daily Plan</h3>
+                <p>Create a plan based on your caloric needs.</p>
+            </a>
+
+            <a href="{{ url_for('main.index') }}" class="card feature-card"
+                style="text-decoration: none; color: inherit; text-align: center; background: rgba(255,255,255,0.5);">
+                <div style="font-size: 3rem;">🔙</div>
+                <h3>Back to Main App</h3>
+                <p>Return to dashboard.</p>
+            </a>
+        </div>
+
+        <!-- content display area -->
+        {% if mode == 'suggestion' %}
+        <div class="card result-card"
+            style="background: linear-gradient(135deg, #a8ff78 0%, #78ffd6 100%); color: #2d3436;">
+            <h2>Healthy Suggestion</h2>
+            <div style="text-align: center; margin-top: 20px;">
+                <h3 style="font-size: 2rem; margin-bottom: 10px;">{{ suggestion.name }}</h3>
+                <p style="font-size: 1.2rem;">{{ suggestion.calories }} kcal</p>
+                <span
+                    style="background: white; padding: 5px 15px; border-radius: 20px; font-size: 0.9rem; margin-top: 10px; display: inline-block;">{{
+                    suggestion.category }}</span>
+            </div>
+        </div>
+        {% elif mode == 'plan' %}
+        <div class="card result-card">
+            <h2>Your Daily Plan (Target: {{ target }} kcal)</h2>
+            <div class="plan-summary" style="margin-bottom: 20px; font-weight: bold; color: var(--secondary-color);">
+                Total Planned: {{ plan.total_calories }} kcal
+            </div>
+
+            <div class="meal-section">
+                <h3>Breakfast</h3>
+                <ul class="food-list">
+                    {% for item in plan.breakfast %}
+                    <li>{{ item.name }} - {{ item.calories }} kcal</li>
+                    {% else %} <li>No item selected</li> {% endfor %}
+                </ul>
+            </div>
+
+            <div class="meal-section">
+                <h3>Lunch</h3>
+                <ul class="food-list">
+                    {% for item in plan.lunch %}
+                    <li>{{ item.name }} - {{ item.calories }} kcal</li>
+                    {% else %} <li>No item selected</li> {% endfor %}
+                </ul>
+            </div>
+
+            <div class="meal-section">
+                <h3>Dinner</h3>
+                <ul class="food-list">
+                    {% for item in plan.dinner %}
+                    <li>{{ item.name }} - {{ item.calories }} kcal</li>
+                    {% else %} <li>No item selected</li> {% endfor %}
+                </ul>
+            </div>
+
+            <div class="meal-section">
+                <h3>Snacks</h3>
+                <ul class="food-list">
+                    {% for item in plan.snacks %}
+                    <li>{{ item.name }} - {{ item.calories }} kcal</li>
+                    {% else %} <li>No item selected</li> {% endfor %}
+                </ul>
+            </div>
+        </div>
+        {% endif %}
+    </div>
+</div>
+
+<style>
+    .feature-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+    }
+
+    .meal-section {
+        margin-bottom: 20px;
+        padding-bottom: 10px;
+        border-bottom: 1px dashed #eee;
+    }
+
+    .meal-section h3 {
+        color: var(--primary-color);
+        font-size: 1.1rem;
+    }
+</style>
+{% endblock %}
