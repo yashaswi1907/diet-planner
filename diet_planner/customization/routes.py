@@ -293,3 +293,4 @@ def suggestions():
                          diet_plan=diet_plan,
                          suggestions=suggestions_data,
                          profile=profile)
+
